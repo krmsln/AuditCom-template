@@ -1,5 +1,570 @@
 @import "reset.css";
 
-img {
-    width: 250px;
+/* --- FONTS --- */
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* --- VARIABLES --- */
+:root {
+    --primary: #DA291C;
+    /* Rouge Suisse */
+    --dark: #1a1a1a;
+    --light: #f8f9fa;
+    --grey: #6c757d;
+}
+
+body {
+    font-family: 'Inter', Helvetica, Arial, sans-serif;
+    margin: 0;
+    color: var(--dark);
+    background: white;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* HIGHLIGHT STYLE */
+.highlight {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/*  1. HERO SECTION */
+.hero-section {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--dark);
+    background: white;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../img/players.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.15;
+    z-index: 0;
+    filter: brightness(0) saturate(100%) invert(20%) sepia(95%) saturate(3500%) hue-rotate(350deg) brightness(95%) contrast(95%);
+}
+
+.hero-balls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 100;
+    overflow: visible;
+    --hero-ball-rotation: 0deg;
+}
+
+.hero-balls::before {
+    content: '';
+    position: absolute;
+    top: -150px;
+    right: -150px;
+    width: 400px;
+    height: 400px;
+    background-image: url('../img/soccer_ball_00.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: rotate(var(--hero-ball-rotation));
+    opacity: 0.3;
+}
+
+.hero-balls::after {
+    content: '';
+    position: absolute;
+    bottom: -150px;
+    left: -150px;
+    width: 400px;
+    height: 400px;
+    background-image: url('../img/soccer_ball_00.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: rotate(var(--hero-ball-rotation));
+    opacity: 0.3;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    max-width: 800px;
+}
+
+.hero-content h1 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    margin-bottom: 20px;
+    line-height: 1.1;
+    font-weight: 800;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-cta {
+    background: var(--primary);
+    color: white;
+    padding: 18px 50px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+    transition: transform 0.3s;
+    display: inline-block;
+}
+
+.btn-cta:hover {
+    background: white;
+    color: var(--primary);
+    transform: translateY(-3px);
+}
+
+/* 2. STATS SECTION  */
+.stats-section {
+    padding: 60px 20px;
+    background: white;
+}
+
+.stat-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.stat-box {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--grey);
+}
+
+/* 2.5 TEXT SECTION  */
+.text-section {
+    min-height: 100vh;
+    background: white;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 20px;
+    overflow: hidden;
+}
+
+.text-container {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.text-block {
+    padding: 30px;
+    border-radius: 15px;
+    transition: all 2.5s ease;
+    font-size: 2rem;
+    line-height: 1.4;
+    max-width: 60%;
+    opacity: 0;
+    position: relative;
+    --ball-rotation: 0deg;
+}
+
+.text-block::before {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background-image: url('../img/soccer_ball_00.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    top: 50%;
+    transform: translateY(-50%) rotate(var(--ball-rotation));
+    transition: none;
+}
+
+.slide-left {
+    margin-left: auto;
+    text-align: right;
+    transform: translateX(-100%);
+}
+
+.slide-left::before {
+    left: -100px;
+}
+
+.slide-left.active {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.slide-right {
+    margin-right: auto;
+    text-align: left;
+    transform: translateX(100%);
+}
+
+.slide-right::before {
+    right: -100px;
+}
+
+.slide-right.active {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Enlève le ballon du 2ème et 4ème paragraphe */
+.text-block:nth-child(2)::before,
+.text-block:nth-child(4)::before {
+    display: none;
+}
+
+/* 4. MAP SECTION  */
+.map-section {
+    padding: 80px 20px;
+    background: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-title h2 {
+    font-size: 4rem;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.map-interface {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex: 1;
+}
+
+@media(min-width: 900px) {
+    .map-interface {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+}
+
+.svg-wrapper {
+    flex: 2;
+    width: 100%;
+    /* Removed background, padding, border-radius, box-shadow */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 100%;
+}
+
+.interactive-map {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    transform: translateX(-5%);
+}
+
+/* Style par défaut des cantons dans le SVG */
+.interactive-map path {
+    fill: #000;
+    stroke: #fff;
+    stroke-width: 1px;
+    cursor: pointer;
+}
+
+.region-info-panel {
+    flex: 1;
+    padding: 30px;
+    min-width: 300px;
+    min-height: 200px;
+}
+
+.region-info-panel h3 {
+    color: var(--primary);
+    margin-top: 0;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+}
+
+.club-list-display {
+    list-style: none;
+    padding: 0;
+}
+
+.club-list-display li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.club-list-display li:hover {
+    background: rgba(255, 62, 62, 0.1);
+}
+
+.club-list-display img {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.club-list-display li {
+    padding: 10px 0;
+    border-bottom: 1px solid #f5f5f5;
+    font-weight: 500;
+}
+
+/* 4. FORM SECTION  */
+.form-section {
+    padding: 100px 20px;
+    background: var(--dark);
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.form-container h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.form-container p {
+    margin-bottom: 40px;
+    opacity: 0.7;
+}
+
+#downloadForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group {
+    display: flex;
+    gap: 15px;
+}
+
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.btn-submit {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 18px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-submit:hover {
+    background: white;
+    color: var(--primary);
+}
+
+.checkbox-wrapper {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: #ccc;
+    justify-content: center;
+}
+/* Message style" */
+.message {
+    color: black;
+}
+
+.message.success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.message.error {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* ANIMATIONS  */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Adaptations */
+@media(max-width: 768px) {
+    /* Garder overflow visible pour que le ballon du bas dépasse */
+    .hero-section {
+        overflow: visible;
+    }
+
+    .hero-balls::before {
+        display: none;
+    }
+
+    .input-group {
+        flex-direction: column;
+    }
+
+    .stat-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+
+    /* Hide map on mobile */
+    .svg-wrapper {
+        display: none;
+    }
+
+    /* Show mobile canton list */
+    .mobile-canton-list {
+        display: block;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .mobile-canton-list ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .mobile-canton-list li {
+        background: var(--primary);
+        color: white;
+        padding: 10px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    .mobile-canton-list li:hover {
+        background: #041a99;
+    }
+
+    /* Adjust map-interface for mobile */
+    .map-interface {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .region-info-panel {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    /* Change text on mobile */
+    .section-title p:not(.mobile-text) {
+        display: none;
+    }
+
+    .section-title p.mobile-text {
+        display: block;
+    }
+
+    /* Adjust text section for mobile */
+    .text-section {
+        height: auto;
+        padding: 50px 20px;
+    }
+
+    .text-block {
+        max-width: 90%;
+        font-size: 1.5rem;
+        padding: 20px;
+    }
+
+    .text-container {
+        gap: 40px;
+    }
+}
+
+
+/* Hide mobile list on desktop */
+@media(min-width: 769px) {
+    .mobile-canton-list {
+        display: none;
+    }
+
+    .section-title p.mobile-text {
+        display: none;
+    }
 }

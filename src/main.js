@@ -225,7 +225,6 @@ async function loadPDFList() {
     });
   } catch (error) {
     console.error("Error loading PDF list:", error);
-    showMessage("Erreur lors du chargement de la liste", "error");
   }
 }
 
